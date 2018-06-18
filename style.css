@@ -1,19 +1,80 @@
 body {
   text-align: center;
-  background-color: gray;
+  background-color: #139e8c;
+  background-image: linear-gradient(45deg, #ba0404 25%, transparent 25%, transparent 50%, #2ace83 50%, #2ace83 75%, transparent 75%, #0f1d09);
+  background-size: 50px 50px;
 }
 
 #connect4 {
   background-color: blue;
   display: inline-block;
+  border-radius: 2%;
+}
+
+.heading {
+  background-color: #63a5e7;
+  border-radius: 45% 45% 45% 45%;
+  width: 75%;
+  margin: auto;
+  box-shadow: 2px 2px 4px black, -2px -2px 4px black;
+  color: #fdd557;
+  font-family: "Comic Sans MS", cursive, sans-serif;
+  font-size: 30px;
+  animation: spin 1s 1 linear;
+  animation-iteration-count: 1;
+}
+
+.heading2 {
+  background-color: #ffde2a;
+  border-radius: 45% 45% 45% 45%;
+  box-sizing: border-box;
+  width: 50%;
+  margin: auto;
+  box-shadow: 2px 2px 4px black, -2px -2px 4px black;
+  color: blue;
+  font-family: "Trebuchet MS", Helvetica, sans-serif;
+  font-size: 25px;
+  font-weight: bold;
+  animation: size-in 1.5s 1;
+}
+
+@keyframes size-in {
+    from {
+      transform: scale(.1);
+    }
+    to {
+      transform: scale(1);
+    }
+}
+
+.board {
+  background-color: #a561a2;
+  border-radius: 45% 45% 45% 45%;
+  transform-origin: center;
+  animation: spin .3s 10 linear;
+  padding: 30px 30px;
+  overflow: scroll;
+  box-shadow: 2px 2px 4px black, -2px -2px 4px black;
+  animation-duration: 500ms;
+  animation-iteration-count: 3;
+  animation-timing-function: linear;
+}
+
+@keyframes spin {
+    from {
+        transform:rotate(0deg);
+    }
+    to {
+        transform:rotate(360deg);
+    }
 }
 
 .col {
   width: 70px;
   height: 70px;
   display: inline-block;
-  background-color: white;
-  border-radius: 50%;
+  background-color: #ffde2a;
+  border-radius: 45% 45% 45% 45%;
   margin: 5px;
 }
 
@@ -22,11 +83,11 @@ body {
 }
 
 .next-red {
-  background-color: rgba(255, 0, 0, 0.2);
+  background-color: rgba(255, 0, 0, 0.6);
 }
 
 .next-black {
-  background-color: rgba(0, 0, 0, 0.2);
+  background-color: rgba(0, 0, 0, 0.6);
 }
 
 .col.red {
@@ -35,4 +96,19 @@ body {
 
 .col.black {
   background-color: black;
+}
+
+button {
+  background-color: #63a5e7;
+  color: #fdd557;
+  font-family: "Comic Sans MS", cursive, sans-serif;
+  font-size: 15px;
+  font-weight: bold;
+  padding: 10px;
+  /* border-radius: 10px; */
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+  box-shadow: 2px 2px 4px black, -2px -2px 4px black;
+  border-radius: 45% 45% 45% 45%;
+  margin: 5px;
 }

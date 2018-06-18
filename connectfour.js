@@ -7,6 +7,8 @@ class Connect4 {
     this.COLS = 7;
     this.player = 'red';
     this.selector = selector;
+    this.isGameOver = false;
+    this.onPlayerMove = function() {}; //to rotate if it's black or red game turn
     this.createGrid();
     this.setupEventListeners();
   }
@@ -16,6 +18,9 @@ class Connect4 {
     // below the DOM will be used
     const $board = $(this.selector);
     // console.log($board);
+    $board.empty(); //will remove old html elements from the board when restart is pressed.
+    this.isGameOver = false;
+    this.player = 'red';
     // Create 6 row with a For loop
     for (let row = 0; row < this.ROWS; row++) {
       const $row = $('<div>') //create a DIV
@@ -67,21 +72,26 @@ class Connect4 {
       $('.col').removeClass(`next-${that.player}`);
     }); //the 'mouseleave' portion above, the function will REMOVE the last filled circle it added when originally hovered over.
     $board.on('click', '.col.empty', function() {
+      if (that.isGameOver) return; //want to make other spaces DEACTIVATED when game is won.
       const col = $(this).data('col');
-      const row = $(this).data('row');
+      // const row = $(this).data('row');
       const $lastEmptyCell = findLastEmptyCell(col);
       $lastEmptyCell.removeClass(`empty next-${that.player}`);
       $lastEmptyCell.addClass(that.player); // say "that.player" instead of writing red every time.
       $lastEmptyCell.data('player', that.player);
 
-      const winner = that.checkForWinner(row, col)
+      const winner = that.checkForWinner($lastEmptyCell.data('row'), $lastEmptyCell.data('col')
+    )
       if (winner) {
+        that.isGameOver = true;
         alert(`Game Over! Player ${that.player} has won!`); //if TRUE boolean printed, then THIS alert will appear.
+        $('.col.empty').removeClass('empty'); //this makes sure that after game is over/won, that the hover-highlight function disables and POINTER-Cursor goes away.
         return;
       }
 
       that.player = (that.player === 'red') ? 'black' : 'red';
       // ABOVE will alternate between placing a black chip and a red chip.
+      that.onPlayerMove(); //to rotate if it's black or red game turn
       $(this).trigger('mouseenter');
 
     });
@@ -96,7 +106,6 @@ class Connect4 {
     }
 
     function checkDirection(direction) {
-      debugger;  //helps find bugs in code via browser
       let total = 0;
       let i = row + direction.i;
       let j = col + direction.j;
@@ -126,6 +135,16 @@ class Connect4 {
       }
     }
 
+    // For diagonals, there are TWO functions as opposed to One(each) for Horizonal and Verticle Check winners.
+    function checkDiagonalBLtoTR() { //checks bottm left to top right
+      return checkWin({i: 1, j: -1}, {i: 1, j: 1}); //here i = DOWN and j = Negative to the LEFT and ALSO after, i = Positive UP and j = to the RIGHT
+    }
+
+    function checkDiagonalTLtoBR() { //checks TOP left to BOTTOM right
+      return checkWin({i: 1, j: 1}, {i: -1, j: -1});
+    }
+
+
     function checkVerticals() {
       // BELOW to check for winners in the UP direction and then the DOWN direction
       return checkWin({i: -1, j: 0}, {i: 1, j: 0});
@@ -136,6 +155,11 @@ class Connect4 {
       return checkWin({i: 0, j: -1}, {i: 0, j: 1});
     }
 
-   return checkVerticals() || checkHorizontals()
+   return checkVerticals() || checkHorizontals() || checkDiagonalBLtoTR() || checkDiagonalTLtoBR();
+ }
+
+ playagain () {
+   this.createGrid();
+   this.onPlayerMove();
  }
 }
