@@ -25,7 +25,7 @@ class Connect4 {
       const $col = $('<div>') //create another DIV
         .addClass('col empty') //added Class called "col empty"
         .attr('data-col', col) //you can pass the desired attribute (the column index)
-        .attr('data-col', row); //pass attribute for ROW index
+        .attr('data-row', row); //pass attribute for ROW index
 
         //  Create 6 colums with a For loop
       $row.append($col);
@@ -96,6 +96,7 @@ class Connect4 {
     }
 
     function checkDirection(direction) {
+      debugger;  //helps find bugs in code via browser
       let total = 0;
       let i = row + direction.i;
       let j = col + direction.j;
@@ -104,13 +105,14 @@ class Connect4 {
        i < that.ROWS &&
        j >= 0 &&
        j < that.COLS &&
-       $next.data('player') === that.player) {
+       $next.data('player') === that.player
+     ) {
       total++;
       i += direction.i;
       j += direction.j;
       $next = $getCell(i, j);
       }
-      return total; 
+      return total;
     }
 
     function checkWin(directionA, directionB) {
@@ -125,10 +127,15 @@ class Connect4 {
     }
 
     function checkVerticals() {
-      // BELOW to check for winners in the UP directiong and then the DOWN direction
+      // BELOW to check for winners in the UP direction and then the DOWN direction
       return checkWin({i: -1, j: 0}, {i: 1, j: 0});
     }
 
-   return checkVerticals()
+    function checkHorizontals() {
+      // BELOW to check for winners in the LEFT direction and then the RIGHT direction
+      return checkWin({i: 0, j: -1}, {i: 0, j: 1});
+    }
+
+   return checkVerticals() || checkHorizontals()
  }
 }
