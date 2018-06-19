@@ -1,4 +1,4 @@
-// Another js file here to connect to declare a class which will ultimately be used in main.js
+// Another js file here to connect to declare a class which will ultimately be used with main.js
  // ``BACK-Ticks used below are for STRING INTERPOLATION: a more convenient syntax for mixing string literals with expressions. It's code embedded in a string literal.
 
 class Connect4 {
@@ -7,19 +7,19 @@ class Connect4 {
     this.COLS = 7;
     this.player = 'red';
     this.selector = selector;
-    this.isGameOver = false;
-    this.onPlayerMove = function() {}; //to rotate if it's black or red game turn
-    this.createGrid();
-    this.setupEventListeners();
+    this.gameOver = false;
+    this.playerMove = function() {}; //to rotate if it's black or red game turn
+    this.makeBoard();
+    this.eventListeners();
   }
   // creating a method
   // createGridis being used to make several DIVs
-  createGrid() {
+  makeBoard() {
     // below the DOM will be used
     const $board = $(this.selector);
     // console.log($board);
     $board.empty(); //will remove old html elements from the board when restart is pressed.
-    this.isGameOver = false;
+    this.gameOver = false;
     this.player = 'red';
     // Create 6 row with a For loop
     for (let row = 0; row < this.ROWS; row++) {
@@ -39,7 +39,7 @@ class Connect4 {
     }
   }
 // Below, adding Event Listeners
-  setupEventListeners() {
+  eventListeners() {
     const $board = $(this.selector);
     // below, whenever we click on an empty column, invoke a function
     const that = this; //to keep reference to the orginal 'this' attribute -- this is involved in being able to switch between players
@@ -58,12 +58,12 @@ class Connect4 {
     }
 
     $board.on('mouseenter', '.col.empty', function() {
-      // When logged below: when entering a cell and hovering over, in colsole, it prints out the cells that are hovered over.
+      // When logged below: when entering a cell and hovering over, in console, it prints out the cells that are hovered over.
       // NOW add attributes ABOVE for column & rows so which SPECIFIC row/column can be identified when it's hovered over.
       // console.log('here', this);
       const col = $(this).data('col');
       const $lastEmptyCell = findLastEmptyCell(col);
-      $lastEmptyCell.addClass(`next-${that.player}`);
+    $lastEmptyCell.addClass(`next-${that.player}`);
       // now as we hover, it ADDS placeholder
       // console.log(col);
     });
@@ -72,7 +72,7 @@ class Connect4 {
       $('.col').removeClass(`next-${that.player}`);
     }); //the 'mouseleave' portion above, the function will REMOVE the last filled circle it added when originally hovered over.
     $board.on('click', '.col.empty', function() {
-      if (that.isGameOver) return; //want to make other spaces DEACTIVATED when game is won.
+      if (that.gameOver) return; //want to make other spaces DEACTIVATED when game is won.
       const col = $(this).data('col');
       // const row = $(this).data('row');
       const $lastEmptyCell = findLastEmptyCell(col);
@@ -83,7 +83,7 @@ class Connect4 {
       const winner = that.checkForWinner($lastEmptyCell.data('row'), $lastEmptyCell.data('col')
     )
       if (winner) {
-        that.isGameOver = true;
+        that.gameOver = true;
         alert(`Game Over! Player ${that.player} has won!`); //if TRUE boolean printed, then THIS alert will appear.
         $('.col.empty').removeClass('empty'); //this makes sure that after game is over/won, that the hover-highlight function disables and POINTER-Cursor goes away.
         return;
@@ -91,7 +91,7 @@ class Connect4 {
 
       that.player = (that.player === 'red') ? 'black' : 'red';
       // ABOVE will alternate between placing a black chip and a red chip.
-      that.onPlayerMove(); //to rotate if it's black or red game turn
+      that.playerMove(); //to rotate if it's black or red game turn
       $(this).trigger('mouseenter');
 
     });
@@ -159,7 +159,7 @@ class Connect4 {
  }
 
  playagain () {
-   this.createGrid();
-   this.onPlayerMove();
+   this.makeBoard();
+   this.playerMove();
  }
 }

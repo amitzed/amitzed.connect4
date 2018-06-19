@@ -3,12 +3,7 @@ body {
   background-color: #139e8c;
   background-image: linear-gradient(45deg, #ba0404 25%, transparent 25%, transparent 50%, #2ace83 50%, #2ace83 75%, transparent 75%, #0f1d09);
   background-size: 50px 50px;
-}
-
-#connect4 {
-  background-color: blue;
-  display: inline-block;
-  border-radius: 2%;
+  animation: size-in 1.5s 1;
 }
 
 .heading {
@@ -16,10 +11,11 @@ body {
   border-radius: 45% 45% 45% 45%;
   width: 75%;
   margin: auto;
-  box-shadow: 2px 2px 4px black, -2px -2px 4px black;
+  box-shadow: 20px 2px 40px #fdd557, -20px -2px 40px #fdd557;
   color: #fdd557;
   font-family: "Comic Sans MS", cursive, sans-serif;
   font-size: 30px;
+  text-shadow: 0.1em 0.1em 0.05em #a561a2;
   animation: spin 1s 1 linear;
   animation-iteration-count: 1;
 }
@@ -34,8 +30,13 @@ body {
   color: blue;
   font-family: "Trebuchet MS", Helvetica, sans-serif;
   font-size: 25px;
-  font-weight: bold;
+  text-shadow: 0.1em 0.1em 0.05em #a561a2;
   animation: size-in 1.5s 1;
+  /* color animation below */
+  animation-name: rainbow-move-change;
+  animation-duration: 2s;
+  animation-iteration-count: 1;
+  animation-timing-function: linear;
 }
 
 @keyframes size-in {
@@ -47,6 +48,16 @@ body {
     }
 }
 
+#connect4 {
+  background-color: #192ceb;
+  display: inline-block;
+  border-radius: 2%;
+  animation-name: rainbow-move-change;
+  animation-duration: 1.5s;
+  animation-iteration-count: 1;
+  animation-timing-function: linear;
+}
+
 .board {
   background-color: #a561a2;
   border-radius: 45% 45% 45% 45%;
@@ -54,9 +65,14 @@ body {
   animation: spin .3s 10 linear;
   padding: 30px 30px;
   overflow: scroll;
-  box-shadow: 2px 2px 4px black, -2px -2px 4px black;
+  box-shadow: 20px 2px 40px black, -20px -2px 40px black;
   animation-duration: 500ms;
   animation-iteration-count: 3;
+  animation-timing-function: linear;
+  /* color animation below */
+  animation-name: rainbow-move-change;
+  animation-duration: 1.5s;
+  animation-iteration-count: 1;
   animation-timing-function: linear;
 }
 
@@ -74,7 +90,7 @@ body {
   height: 70px;
   display: inline-block;
   background-color: #ffde2a;
-  border-radius: 45% 45% 45% 45%;
+  border-radius: 40% 40% 40% 40%;
   margin: 5px;
 }
 
@@ -84,18 +100,42 @@ body {
 
 .next-red {
   background-color: rgba(255, 0, 0, 0.6);
+  animation-name: rainbow-move-change;
+  animation-duration: 7s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
 }
 
 .next-black {
   background-color: rgba(0, 0, 0, 0.6);
+  animation-name: rainbow-move-change;
+  animation-duration: 7s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+
+@keyframes rainbow-move-change {
+  0% {background: #a561a2; left:0%; top:0%;}
+  10% {background: blue; }
+  25% {background: hotpink; left: 75%; top:0px;}
+  30% {background: coral;}
+  40% {background: lightyellow;}
+  50% {background: palegreen; left: 75%; top: 10em; transform: rotate(450deg); }
+  60% {background: mediumaquamarine; }
+  75% {background: steelblue; left:0%; top:10em; border-radius: 50%;}
+  80% {background: darkviolet;}
+  90% {background: #63a5e7; }
+  100% {background: #ffde2a; left:0px; top:0px; }
 }
 
 .col.red {
   background-color: red;
+  animation: spin .3s 1 linear;
 }
 
 .col.black {
   background-color: black;
+  animation: spin .3s 1 linear;
 }
 
 button {
@@ -105,10 +145,13 @@ button {
   font-size: 15px;
   font-weight: bold;
   padding: 10px;
-  /* border-radius: 10px; */
   -moz-border-radius: 10px;
   -webkit-border-radius: 10px;
-  box-shadow: 2px 2px 4px black, -2px -2px 4px black;
+  box-shadow: 20px 2px 40px #fdd557, -20px -2px 40px #fdd557;
   border-radius: 45% 45% 45% 45%;
   margin: 5px;
+}
+
+#playagain {
+  cursor: pointer;
 }
