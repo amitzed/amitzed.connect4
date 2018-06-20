@@ -12,8 +12,8 @@ class Connect4 {
     this.makeBoard();
     this.eventListeners();
   }
-  // creating a method
-  // createGridis being used to make several DIVs
+  // create a method
+  // makeBoard is being used to make several DIVs
   makeBoard() {
     // below the DOM will be used
     const $board = $(this.selector);
@@ -21,11 +21,11 @@ class Connect4 {
     $board.empty(); //will remove old html elements from the board when restart is pressed.
     this.gameOver = false;
     this.player = 'red';
-    // Create 6 row with a For loop
+    // Create 6 ROWS with a For loop
     for (let row = 0; row < this.ROWS; row++) {
       const $row = $('<div>') //create a DIV
         .addClass('row'); //added Class called "row"
-        //  Create 6 colums with a For loop
+        //  Create 7 COLUMNS with a For loop
     for (let col = 0; col < this.COLS; col++) {
       const $col = $('<div>') //create another DIV
         .addClass('col empty') //added Class called "col empty"
@@ -33,7 +33,7 @@ class Connect4 {
         .attr('data-row', row); //pass attribute for ROW index
 
         //  Create 6 colums with a For loop
-      $row.append($col);
+     $row.append($col);
     }
      $board.append($row);
     }
@@ -45,7 +45,7 @@ class Connect4 {
     const that = this; //to keep reference to the orginal 'this' attribute -- this is involved in being able to switch between players
 
     function findLastEmptyCell(col) { //declare function
-      const cells = $(`.col[data-col='${col}']`); //get all the colums that have the same attribute data-col equal to the column index that was passed inside.
+      const cells = $(`.col[data-col='${col}']`); //get all the columns that have the same attribute data-col equal to the column index that was passed inside.
       for (let i = cells.length - 1; i >= 0; i--) {
         const $cell = $(cells[i]); //the above two statements/loop is so that we loop over backwards, can get the jQuery of where we are.
         if ($cell.hasClass('empty')) {
@@ -80,11 +80,11 @@ class Connect4 {
       $lastEmptyCell.addClass(that.player); // say "that.player" instead of writing red every time.
       $lastEmptyCell.data('player', that.player);
 
-      const winner = that.checkForWinner($lastEmptyCell.data('row'), $lastEmptyCell.data('col')
-    )
+      const winner = that.whoWon($lastEmptyCell.data('row'), $lastEmptyCell.data('col')
+      )
       if (winner) {
         that.gameOver = true;
-        alert(`Game Over! Player ${that.player} has won!`); //if TRUE boolean printed, then THIS alert will appear.
+        alert(`GAME OVER! Player ${that.player} WINS!!`); //if TRUE boolean printed, then THIS alert will appear.
         $('.col.empty').removeClass('empty'); //this makes sure that after game is over/won, that the hover-highlight function disables and POINTER-Cursor goes away.
         return;
       }
@@ -97,66 +97,66 @@ class Connect4 {
     });
   }
 
-  checkForWinner(row, col) {
+  whoWon(row, col) {
     // ABOVE created a function to check for the winner to check if there is a horizonal/diagonal/verticle four chip match and that will signal the end of the game.
     const that = this;
 
-    function $getCell(i, j) {
+    function $cell(i, j) {
       return $(`.col[data-row='${i}'][data-col='${j}']`);
     }
 
-    function checkDirection(direction) {
+    function direction(direction) { //along with checking for winner >= 4, this direction checker checks for wins in different directions.
       let total = 0;
       let i = row + direction.i;
       let j = col + direction.j;
-      let $next = $getCell(i, j);
-     while (i >= 0 &&
+      let $next = $cell(i, j);
+      while (i >= 0 &&
        i < that.ROWS &&
        j >= 0 &&
        j < that.COLS &&
-       $next.data('player') === that.player
+       $next.data('player') === that.player //says while the now player is equal to thr "emptied" other player, we continue the loop in increments using total++
      ) {
       total++;
       i += direction.i;
       j += direction.j;
-      $next = $getCell(i, j);
+      $next = $cell(i, j);
       }
       return total;
     }
 
-    function checkWin(directionA, directionB) {
+    function winner(direction1, direction2) { //direction1 UP; direction2 DOWN
       const total = 1 +  //keeping track of the totals
-        checkDirection(directionA) +
-        checkDirection(directionB);
+        direction(direction1) + //this definies direction1 & direction2
+        direction(direction2);
       if (total >= 4) {
-        return that.player;
+        return that.player; //if total is >= 4, then will return the winning player.
       } else {
         return null;
-      }
+        }
     }
 
     // For diagonals, there are TWO functions as opposed to One(each) for Horizonal and Verticle Check winners.
-    function checkDiagonalBLtoTR() { //checks bottm left to top right
-      return checkWin({i: 1, j: -1}, {i: 1, j: 1}); //here i = DOWN and j = Negative to the LEFT and ALSO after, i = Positive UP and j = to the RIGHT
+    function diagonalWinBLtoTR() { //checks bottom left to top right
+      return winner({i: 1, j: -1}, {i: 1, j: 1}); //here i = DOWN and j = Negative to the LEFT and ALSO after, i = Positive UP and j = to the RIGHT
     }
 
-    function checkDiagonalTLtoBR() { //checks TOP left to BOTTOM right
-      return checkWin({i: 1, j: 1}, {i: -1, j: -1});
+    function diagonalWinTLtoBR() { //checks TOP left to BOTTOM right
+      return winner({i: 1, j: 1}, {i: -1, j: -1});
     }
 
 
-    function checkVerticals() {
+    function verticalWin() {
       // BELOW to check for winners in the UP direction and then the DOWN direction
-      return checkWin({i: -1, j: 0}, {i: 1, j: 0});
+      return winner({i: -1, j: 0}, {i: 1, j: 0});
     }
 
-    function checkHorizontals() {
+    function horizontalWin() {
       // BELOW to check for winners in the LEFT direction and then the RIGHT direction
-      return checkWin({i: 0, j: -1}, {i: 0, j: 1});
+      return winner({i: 0, j: -1}, {i: 0, j: 1});
     }
 
-   return checkVerticals() || checkHorizontals() || checkDiagonalBLtoTR() || checkDiagonalTLtoBR();
- }
+   return verticalWin() || horizontalWin() || diagonalWinBLtoTR() || diagonalWinTLtoBR();
+  }
 
  playagain () {
    this.makeBoard();
