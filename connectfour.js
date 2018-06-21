@@ -32,7 +32,7 @@ class Connect4 {
         .attr('data-col', col) //you can pass the desired attribute (the column index)
         .attr('data-row', row); //pass attribute for ROW index
 
-        //  Create 6 colums with a For loop
+        //  Create 6 columns with a For loop
      $row.append($col);
     }
      $board.append($row);
@@ -114,7 +114,7 @@ class Connect4 {
        i < that.ROWS &&
        j >= 0 &&
        j < that.COLS &&
-       $next.data('player') === that.player //says while the now player is equal to thr "emptied" other player, we continue the loop in increments using total++
+       $next.data('player') === that.player //says while the now player is equal to the "emptied" other player, we continue the loop in increments using total++
      ) {
       total++;
       i += direction.i;
