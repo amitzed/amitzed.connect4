@@ -1,7 +1,6 @@
 # Connect Four
 
-Link: 
-https://amitzed.github.io/
+Built using: HTML, CSS, JavaScript and jQuery 
 
 This version of Connect Four is a visually reimagined version of the classic game with thought focused on visuals/animations after functionality was achieved.
 The game is the well-known red chip versus black chip and whichever color first gets four of their chips in a row horizontally, vertically or diagonally wins the game.
