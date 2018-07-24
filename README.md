@@ -14,3 +14,7 @@ Finally, when the chip is chosen, there is a quick spin of their color chip and 
 <br>
 <br>
 My main goal for this game was to create a visually-appealing and modern version that did not take away from the classic concept and spirit of Connect Four.
+
+<p align="center">
+  <img src="Project 1 Screen Shot .png" width="850" title="hover text">
+</p>
